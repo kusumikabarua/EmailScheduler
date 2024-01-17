@@ -1,0 +1,26 @@
+[
+  {
+    "title": "title1",
+    "description": "description1",
+    "subject": "subject 1",
+    "frequency": "Weekly",
+    "repeat": "Monday",
+    "time": "10 AM"
+  },
+  {
+    "title": "title2",
+    "description": "description2",
+    "subject": "subject 2",
+    "frequency": "Monthly",
+    "repeat": "First Monday",
+    "time": "10 AM"
+  },
+  {
+    "title": "title3",
+    "description": "description3",
+    "subject": "subject 3",
+    "frequency": "Daily",
+    "repeat": "",
+    "time": "10 AM"
+  }
+]
