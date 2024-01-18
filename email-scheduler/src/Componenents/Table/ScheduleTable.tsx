@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useState,useEffect} from 'react';
 import Table from '@mui/material/Table';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -27,11 +27,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
+  interface TableProps {
+    searchSchedule: string;
 
+  }
 
-
-
-export default function ScheduleTable() {
+export default function ScheduleTable({searchSchedule}:TableProps) {
   interface Schedule {
     id:number
     title: string
@@ -42,10 +43,17 @@ export default function ScheduleTable() {
     time:string
 
  }
-  const [rows,setRows]= useState<Schedule[]>(JSON.parse(localStorage.getItem("AllEmails") || "[]"));
+
+ const [rows,setRows]= useState<Schedule[]>(JSON.parse(localStorage.getItem("AllSchedules") || "[]"));
+ 
+ useEffect(() => {
+
+  setRows(JSON.parse(localStorage.getItem("FilteredSchedules") || "[]"))
+}, [searchSchedule]);
 
  const deleteSchehdule =(id:number)=>{
     const updatedSchedules= rows.filter((schedule:Schedule)=>schedule.id!==id);
+    localStorage.setItem("AllSchedules",JSON.stringify(updatedSchedules));
     setRows(updatedSchedules);
  }
   return (

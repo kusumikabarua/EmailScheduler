@@ -1,21 +1,24 @@
 
 import ScheduleTable from '../Table/ScheduleTable';
-import SearchEmail from '../Search/SearchSchedule';
+import SearchSchedule from '../Search/SearchSchedule';
 import Schedule from '../Modal/Schedule';
 import Stack from '@mui/material/Stack';
 import Box from "@mui/material/Box";
+import { useState } from 'react';
 
 
 const Main=()=>{
+    const [search,setSearch]= useState("");
+   
     return (
         <Box sx={{padding:5}}>
           <br/>
           <Stack direction="row" justifyContent="space-between">
-          <SearchEmail /><Schedule />
+          <SearchSchedule handleSearch={setSearch}/><Schedule />
           </Stack>
           <br/>
           <br/>
-           <ScheduleTable />
+           <ScheduleTable searchSchedule={search} />
           
         </Box>
       );

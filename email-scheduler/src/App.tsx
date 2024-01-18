@@ -7,10 +7,10 @@ import { fetchData } from "./api/api";
 function App() {
 
   useEffect(() => {
-    getAllEmail();
+    getAll();
     
   }, []);
-  const getAllEmail = async () => {
+  const getAll = async () => {
     try {
       const data = await fetchData();
       localStorage.setItem("FilteredSchedules", JSON.stringify(data));
