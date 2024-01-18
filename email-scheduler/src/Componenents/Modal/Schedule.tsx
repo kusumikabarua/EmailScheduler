@@ -24,7 +24,7 @@ const style = {
   p: 4,
 };
 
-export default function Email() {
+export default function Schedule() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -38,8 +38,10 @@ export default function Email() {
   const handleTimeChange = (event: SelectChangeEvent) => {
     setTime(event.target.value as string);
   };
-  const cancel = () => {};
-  const done = () => {};
+ 
+  const done = () => {
+    
+  };
   return (
     <div>
       <Button
@@ -114,7 +116,7 @@ export default function Email() {
                 <MenuItem value={"10 PM"}>10 PM</MenuItem>
               </Select>
             </FormControl>
-            <Box sx={{ resize: "horizontal", gap: 2, px: 2, display: "flex" }}>
+            <Box sx={{ resize: "horizontal", gap: 2, px: 2, display: "flex" ,justifyContent:"flex-end" }}>
               {" "}
               <Button
                 sx={{
@@ -125,7 +127,7 @@ export default function Email() {
                     color: "white",
                   },
                 }}
-                onClick={cancel}
+                onClick={handleClose}
                 variant="contained"
               >
                 Cancel

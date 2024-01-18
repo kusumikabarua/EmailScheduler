@@ -1,5 +1,5 @@
 
-import jsonData from '../data/email.json';
+import jsonData from '../data/schedules.json';
 export const fetchData = async() => {
     try{
        return jsonData;

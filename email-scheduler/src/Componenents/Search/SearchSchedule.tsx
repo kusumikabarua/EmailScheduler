@@ -6,7 +6,7 @@ import { Search } from "@mui/icons-material";
 
 import { InputAdornment, TextField } from "@mui/material";
 
-const SearchEmail = () => {
+const SearchSchedule = () => {
   let [search, setSearch] = useState();
  
  
@@ -33,4 +33,4 @@ const SearchEmail = () => {
   );
 };
 
-export default SearchEmail;
+export default SearchSchedule;

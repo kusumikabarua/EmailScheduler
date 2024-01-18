@@ -1,8 +1,9 @@
-import * as React from 'react';
+import {useState} from 'react';
 import Table from '@mui/material/Table';
 import { styled } from '@mui/material/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableBody from '@mui/material/TableBody';
+import Button from "@mui/material/Button";
 
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
@@ -30,9 +31,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 
 
-export default function EmailTable() {
-
-  interface Email {
+export default function ScheduleTable() {
+  interface Schedule {
+    id:number
     title: string
     description: string
     subject: string
@@ -41,8 +42,12 @@ export default function EmailTable() {
     time:string
 
  }
-  const rows :Email[]= JSON.parse(localStorage.getItem("FilteredEmails") || "[]");
+  const [rows,setRows]= useState<Schedule[]>(JSON.parse(localStorage.getItem("AllEmails") || "[]"));
 
+ const deleteSchehdule =(id:number)=>{
+    const updatedSchedules= rows.filter((schedule:Schedule)=>schedule.id!==id);
+    setRows(updatedSchedules);
+ }
   return (
     <TableContainer  sx={{ maxWidth: 1100 }} component={Paper}>
       <Table aria-label="simple table">
@@ -58,7 +63,7 @@ export default function EmailTable() {
         <TableBody>
           {rows.map((row) => (
             <TableRow
-              key={row.title}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -68,7 +73,7 @@ export default function EmailTable() {
               <TableCell>{row.subject}</TableCell>
               {row.frequency==="Daily"?
               <TableCell>{row.frequency} at {row.time}</TableCell>:<TableCell>{row.frequency} on {row.repeat} at {row.time} </TableCell>}
-              <TableCell><EditIcon />&nbsp;&nbsp;<DeleteOutlineIcon/></TableCell>
+              <TableCell><EditIcon />&nbsp;&nbsp;<Button onClick={()=>{deleteSchehdule(row.id)}}><DeleteOutlineIcon /></Button></TableCell>
         
             </TableRow>
           ))}

@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
-
-import './App.css';
-import EmailTable from './Componenents/EmailTable/EmailTable';
-import SearchEmail from './Componenents/Search/SearchEmail';
-import Email from './Componenents/EmailModal/Email';
-import Stack from '@mui/material/Stack';
+import React, { useEffect } from "react";
+import Main from "./Componenents/Schedules/Main"
+import { Routes, Route } from "react-router-dom";
 import { fetchData } from "./api/api";
 
 
@@ -17,22 +13,19 @@ function App() {
   const getAllEmail = async () => {
     try {
       const data = await fetchData();
-      localStorage.setItem("FilteredEmails", JSON.stringify(data));
-      localStorage.setItem("AllEmails", JSON.stringify(data));
+      localStorage.setItem("FilteredSchedules", JSON.stringify(data));
+      localStorage.setItem("AllSchedules", JSON.stringify(data));
     } catch (err) {
       console.error(err);
     }
   };
   return (
-    <div className="App">
-      <br/>
-      <Stack direction="row" justifyContent="space-between">
-      <SearchEmail /><Email />
-      </Stack>
-      <br/>
-      <br/>
-       <EmailTable />
-      
+   
+      <div className="App">
+      <Routes>
+        <Route path="schedules" element={<Main/>} />
+        
+      </Routes>
     </div>
   );
 }
