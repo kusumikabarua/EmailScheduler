@@ -23,7 +23,7 @@ function App() {
    
       <div className="App">
       <Routes>
-        <Route path="schedules" element={<Main/>} />
+        <Route path="/" element={<Main/>} />
         
       </Routes>
     </div>
