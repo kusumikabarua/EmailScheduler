@@ -60,7 +60,9 @@ export default function Schedule({
   const handleTimeChange = (event: SelectChangeEvent) => {
     setTime(event.target.value as string);
   };
-
+  const handleRepeatChange = (event: SelectChangeEvent) => {
+    setRepeat(event.target.value as string);
+  };
   const done = () => {
     let allSchedules = JSON.parse(localStorage.getItem("AllSchedules") || "[]");
     if (editScheduleId === 0) {
@@ -202,13 +204,30 @@ export default function Schedule({
             ) : (
               ""
             )}
+             {frequency === "Monthly" ? (
+             <FormControl fullWidth>
+             <InputLabel id="repeat-label">Repeat</InputLabel>
+             <Select
+               labelId="repeat-label"
+               id="Repeat"
+               value={repeat}
+               label="Repeat"
+               onChange={handleRepeatChange}
+             >
+               <MenuItem value={"First Monday"}>First Monday</MenuItem>
+               <MenuItem value={"Last Friday"}>Last Friday</MenuItem>
+             </Select>
+           </FormControl>
+            ) : (
+              ""
+            )}
             <FormControl fullWidth>
-              <InputLabel id="frequency-label">Time</InputLabel>
+              <InputLabel id="time-label">Time</InputLabel>
               <Select
-                labelId="frequency-label"
-                id="Frequency"
+                labelId="time-label"
+                id="Time"
                 value={time}
-                label="Frequency"
+                label="Time"
                 onChange={handleTimeChange}
               >
                 <MenuItem value={"10 AM"}>10 AM</MenuItem>
