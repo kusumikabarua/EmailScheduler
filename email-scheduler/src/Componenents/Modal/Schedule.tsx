@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import WeekDaysButtonGroup from "../WeekDays/WeekDaysButtonGroup";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import EditIcon from "@mui/icons-material/Edit";
 
 const style = {
   position: "absolute" as "absolute",
@@ -34,8 +35,12 @@ interface ScheduleData {
 }
 interface ScheduleProps {
   addSchedule: (schedule: boolean) => void;
+  editScheduleId: number;
 }
-export default function Schedule({ addSchedule }: ScheduleProps) {
+export default function Schedule({
+  addSchedule,
+  editScheduleId,
+}: ScheduleProps) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -58,22 +63,36 @@ export default function Schedule({ addSchedule }: ScheduleProps) {
 
   const done = () => {
     let allSchedules = JSON.parse(localStorage.getItem("AllSchedules") || "[]");
-    let maxId = allSchedules.reduce(
-      (a: number, b: ScheduleData) => Math.max(a, b.id),
-      0
-    );
-    console.log(maxId);
-    var newSchedule = {
-      id: maxId + 1,
-      title: title,
-      description: description,
-      subject: subject,
-      frequency: frequency,
-      repeat: repeat,
-      time: time,
-    };
-    allSchedules.push(newSchedule);
-    localStorage.setItem("AllSchedules",JSON.stringify(allSchedules));
+    if (editScheduleId === 0) {
+      let maxId = allSchedules.reduce(
+        (a: number, b: ScheduleData) => Math.max(a, b.id),
+        0
+      );
+      console.log(maxId);
+      let newSchedule = {
+        id: maxId + 1,
+        title: title,
+        description: description,
+        subject: subject,
+        frequency: frequency,
+        repeat: repeat,
+        time: time,
+      };
+      allSchedules.push(newSchedule);
+    } else {
+      let editedIndex = allSchedules.findIndex(
+        (schedule: ScheduleData) => schedule.id === editScheduleId
+      );
+
+      allSchedules[editedIndex].title = title;
+      allSchedules[editedIndex].description = description;
+      allSchedules[editedIndex].subject = subject;
+      allSchedules[editedIndex].frequency = frequency;
+      allSchedules[editedIndex].repeat = repeat;
+      allSchedules[editedIndex].time = time;
+    }
+
+    localStorage.setItem("AllSchedules", JSON.stringify(allSchedules));
     handleClose();
     setTitle("");
     setDescription("");
@@ -83,17 +102,39 @@ export default function Schedule({ addSchedule }: ScheduleProps) {
     setTime("");
     addSchedule(true);
   };
-
+  const populateEdit = () => {
+    let allSchedules = JSON.parse(localStorage.getItem("AllSchedules") || "[]");
+    let scheduleTobeEdited = allSchedules.filter(
+      (schedule: ScheduleData) => schedule.id === editScheduleId
+    );
+    setTitle(scheduleTobeEdited[0].title);
+    setDescription(scheduleTobeEdited[0].description);
+    setSubject(scheduleTobeEdited[0].subject);
+    setFrequency(scheduleTobeEdited[0].frequency);
+    setRepeat(scheduleTobeEdited[0].repeat);
+    setTime(scheduleTobeEdited[0].time);
+    handleOpen();
+  };
   return (
     <div>
-      <Button
-        sx={{ color: "white", backgroundColor: "black" }}
-        onClick={handleOpen}
-        variant="contained"
-      >
-        <AddCircleOutlineIcon />
-        Add
-      </Button>
+      {editScheduleId > 0 ? (
+        <Button
+          onClick={() => {
+            populateEdit();
+          }}
+        >
+          <EditIcon />
+        </Button>
+      ) : (
+        <Button
+          sx={{ color: "white", backgroundColor: "black" }}
+          onClick={handleOpen}
+          variant="contained"
+        >
+          <AddCircleOutlineIcon />
+          Add
+        </Button>
+      )}
 
       <Modal
         open={open}

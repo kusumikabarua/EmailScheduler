@@ -10,8 +10,9 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditIcon from '@mui/icons-material/Edit';
+
 import { grey } from '@mui/material/colors';
+import ScheduleWindow from '../Modal/Schedule';
 
 
 
@@ -66,6 +67,7 @@ if(newSchedule){
     localStorage.setItem("AllSchedules",JSON.stringify(updatedSchedules));
     setRows(updatedSchedules);
  }
+
   return (
     <TableContainer  sx={{ maxWidth: 1100 }} component={Paper}>
       <Table aria-label="simple table">
@@ -91,7 +93,7 @@ if(newSchedule){
               <TableCell>{row.subject}</TableCell>
               {row.frequency==="Daily"?
               <TableCell>{row.frequency} at {row.time}</TableCell>:<TableCell>{row.frequency} on {row.repeat} at {row.time} </TableCell>}
-              <TableCell><EditIcon />&nbsp;&nbsp;<Button onClick={()=>{deleteSchehdule(row.id)}}><DeleteOutlineIcon /></Button></TableCell>
+              <TableCell> <ScheduleWindow editScheduleId={row.id} addSchedule={addSchedule} />&nbsp;&nbsp;<Button onClick={()=>{deleteSchehdule(row.id)}}><DeleteOutlineIcon /></Button></TableCell>
         
             </TableRow>
           ))}
