@@ -93,7 +93,7 @@ if(newSchedule){
               <TableCell>{row.subject}</TableCell>
               {row.frequency==="Daily"?
               <TableCell>{row.frequency} at {row.time}</TableCell>:<TableCell>{row.frequency} on {row.repeat} at {row.time} </TableCell>}
-              <TableCell> <ScheduleWindow editScheduleId={row.id} addSchedule={addSchedule} />&nbsp;&nbsp;<Button onClick={()=>{deleteSchehdule(row.id)}}><DeleteOutlineIcon /></Button></TableCell>
+              <TableCell> <ScheduleWindow editScheduleId={row.id} addSchedule={addSchedule} />&nbsp;&nbsp;<Button   sx={{ color: "black", backgroundColor: "white" }} onClick={()=>{deleteSchehdule(row.id)}}><DeleteOutlineIcon /></Button></TableCell>
         
             </TableRow>
           ))}

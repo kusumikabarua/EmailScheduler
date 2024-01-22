@@ -118,14 +118,15 @@ export default function Schedule({
     handleOpen();
   };
   return (
-    <div>
+    <>
       {editScheduleId > 0 ? (
         <Button
+        sx={{ color: "black", backgroundColor: "white" }}
           onClick={() => {
             populateEdit();
           }}
         >
-          <EditIcon />
+          <EditIcon  />
         </Button>
       ) : (
         <Button
@@ -276,6 +277,6 @@ export default function Schedule({
           </Stack>
         </Box>
       </Modal>
-    </div>
+    </>
   );
 }
