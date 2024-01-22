@@ -11,7 +11,6 @@ import FormControl from "@mui/material/FormControl";
 import WeekDaysButtonGroup from "../WeekDays/WeekDaysButtonGroup";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
-
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
@@ -24,12 +23,30 @@ const style = {
   p: 4,
 };
 
-export default function Schedule() {
+interface ScheduleData {
+  id: number;
+  title: string;
+  description: string;
+  subject: string;
+  frequency: string;
+  repeat: string;
+  time: string;
+}
+interface ScheduleProps {
+  addSchedule: (schedule: boolean) => void;
+}
+export default function Schedule({ addSchedule }: ScheduleProps) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  //const [addEditSchedule,setAddEditSchedule]=React.useState<ScheduleData>();
+
   const [frequency, setFrequency] = React.useState("");
   const [time, setTime] = React.useState("");
+  const [title, setTitle] = React.useState("");
+  const [subject, setSubject] = React.useState("");
+  const [description, setDescription] = React.useState("");
+  const [repeat, setRepeat] = React.useState("");
 
   const handleChange = (event: SelectChangeEvent) => {
     setFrequency(event.target.value as string);
@@ -38,14 +55,39 @@ export default function Schedule() {
   const handleTimeChange = (event: SelectChangeEvent) => {
     setTime(event.target.value as string);
   };
- 
+
   const done = () => {
-    
+    let allSchedules = JSON.parse(localStorage.getItem("AllSchedules") || "[]");
+    let maxId = allSchedules.reduce(
+      (a: number, b: ScheduleData) => Math.max(a, b.id),
+      0
+    );
+    console.log(maxId);
+    var newSchedule = {
+      id: maxId + 1,
+      title: title,
+      description: description,
+      subject: subject,
+      frequency: frequency,
+      repeat: repeat,
+      time: time,
+    };
+    allSchedules.push(newSchedule);
+    localStorage.setItem("AllSchedules",JSON.stringify(allSchedules));
+    handleClose();
+    setTitle("");
+    setDescription("");
+    setSubject("");
+    setFrequency("");
+    setRepeat("");
+    setTime("");
+    addSchedule(true);
   };
+
   return (
     <div>
       <Button
-        sx={{ color: 'white', backgroundColor: 'black' }}
+        sx={{ color: "white", backgroundColor: "black" }}
         onClick={handleOpen}
         variant="contained"
       >
@@ -61,13 +103,17 @@ export default function Schedule() {
       >
         <Box sx={style}>
           <Stack spacing={2} className="form">
-            <h2>Add Email</h2>
+            <h2>Add Schedule</h2>
             <TextField
               id="Title"
               title="Title"
               name="Title"
               label="Title"
+              value={title}
               variant="outlined"
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
               fullWidth
             />
             <TextField
@@ -75,6 +121,10 @@ export default function Schedule() {
               title="Description"
               name="Description"
               label="Description"
+              value={description}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
               variant="outlined"
               multiline
               maxRows={4}
@@ -85,6 +135,10 @@ export default function Schedule() {
               title="Subject"
               name="Subject"
               label="Subject"
+              value={subject}
+              onChange={(e) => {
+                setSubject(e.target.value);
+              }}
               variant="outlined"
               fullWidth
             />
@@ -102,7 +156,11 @@ export default function Schedule() {
                 <MenuItem value={"Monthly"}>Monthly</MenuItem>
               </Select>
             </FormControl>
-            {frequency === "Weekly" ? <WeekDaysButtonGroup /> : ""}
+            {frequency === "Weekly" ? (
+              <WeekDaysButtonGroup day={repeat} setDay={setRepeat} />
+            ) : (
+              ""
+            )}
             <FormControl fullWidth>
               <InputLabel id="frequency-label">Time</InputLabel>
               <Select
@@ -116,7 +174,15 @@ export default function Schedule() {
                 <MenuItem value={"10 PM"}>10 PM</MenuItem>
               </Select>
             </FormControl>
-            <Box sx={{ resize: "horizontal", gap: 2, px: 2, display: "flex" ,justifyContent:"flex-end" }}>
+            <Box
+              sx={{
+                resize: "horizontal",
+                gap: 2,
+                px: 2,
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
               {" "}
               <Button
                 sx={{

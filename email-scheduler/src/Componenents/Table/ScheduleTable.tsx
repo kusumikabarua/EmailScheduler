@@ -27,12 +27,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     },
   }));
 
-  interface TableProps {
-    searchSchedule: string;
-
-  }
-
-export default function ScheduleTable({searchSchedule}:TableProps) {
   interface Schedule {
     id:number
     title: string
@@ -43,6 +37,14 @@ export default function ScheduleTable({searchSchedule}:TableProps) {
     time:string
 
  }
+  interface TableProps {
+    searchSchedule: string;
+    newSchedule: boolean;
+    addSchedule: (schedule: boolean) => void;
+  }
+
+export default function ScheduleTable({searchSchedule,newSchedule,addSchedule}:TableProps) {
+
 
  const [rows,setRows]= useState<Schedule[]>(JSON.parse(localStorage.getItem("AllSchedules") || "[]"));
  
@@ -50,6 +52,14 @@ export default function ScheduleTable({searchSchedule}:TableProps) {
 
   setRows(JSON.parse(localStorage.getItem("FilteredSchedules") || "[]"))
 }, [searchSchedule]);
+
+useEffect(() => {
+if(newSchedule){
+  setRows(JSON.parse(localStorage.getItem("AllSchedules") || "[]"));
+ 
+} 
+  addSchedule(false);
+}, [newSchedule,addSchedule]);
 
  const deleteSchehdule =(id:number)=>{
     const updatedSchedules= rows.filter((schedule:Schedule)=>schedule.id!==id);

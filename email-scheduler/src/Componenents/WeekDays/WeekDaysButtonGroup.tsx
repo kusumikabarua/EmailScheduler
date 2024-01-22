@@ -5,8 +5,12 @@ import Radio, { radioClasses } from '@mui/joy/Radio';
 import RadioGroup from '@mui/joy/RadioGroup';
 import Sheet from '@mui/joy/Sheet';
 
+interface WeekDaysProps {
+    day: string;
+    setDay: (day: string) => void;
 
-export default function WeekDaysButtonGroup() {
+  }
+export default function WeekDaysButtonGroup({day,setDay}:WeekDaysProps) {
   return (
     <Box sx={{ resize: 'horizontal',  gap: 2, px: 2 ,display:'flex' }}>
     
@@ -22,12 +26,14 @@ export default function WeekDaysButtonGroup() {
       </FormLabel>
       <RadioGroup
         aria-labelledby="week-day-attribute"
-        defaultValue="Monday"
+        defaultValue={"Monday"}
         sx={{ gap: 2, mb: 2, flexWrap: 'wrap', flexDirection: 'row' }}
+        value={day}
+        onChange={(e)=>{setDay(e.target.value)}}
       >
-        {[{display:'S',value:'Sunday'}, {display:'M',value:'Monday'}, {display:'T',value:'Tuesday'},{display:'W',value:'Wednesday'}, {display:'T',value:'Thursday'} , {display:'F',value:'Friday'} ,{display:'S',value:'Saturday'}].map((day) => (
+        {[{display:'S',value:'Sunday'}, {display:'M',value:'Monday'}, {display:'T',value:'Tuesday'},{display:'W',value:'Wednesday'}, {display:'T',value:'Thursday'} , {display:'F',value:'Friday'} ,{display:'S',value:'Saturday'}].map((weekDay) => (
           <Sheet
-            key={day.value}
+            key={weekDay.value}
             sx={{
               position: 'relative',
               width: 40,
@@ -54,7 +60,7 @@ export default function WeekDaysButtonGroup() {
               },
             }}
           >
-            <Radio color="neutral" overlay disableIcon value={day.value} label={day.display} />
+            <Radio color="neutral" overlay disableIcon value={weekDay.value} label={ weekDay.display} />
           </Sheet>
         ))}
       </RadioGroup>
